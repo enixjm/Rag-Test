@@ -122,7 +122,7 @@ def main():
         add_history("user", user_input)
         st.chat_message("user").write(f"{user_input}")
         with st.chat_message("assistant"):
-            llm = RemoteRunnable("")
+            llm = RemoteRunnable("https://cys-039-3exf6h5tguyntgp6huqzqd.streamlit.app")
             chat_container = st.empty()
             
             if st.session_state.processComplete:
