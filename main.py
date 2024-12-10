@@ -122,7 +122,7 @@ def main():
         add_history("user", user_input)
         st.chat_message("user").write(f"{user_input}")
         with st.chat_message("assistant"):
-            llm = RemoteRunnable("https://glowworm-engaged-marmoset.ngrok-free.app/llm/")
+            llm = RemoteRunnable("https://cys-039-3exf6h5tguyntgp6huqzqd.streamlit.app/llm/")
             chat_container = st.empty()
             
             if st.session_state.processComplete:
