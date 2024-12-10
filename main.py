@@ -122,7 +122,8 @@ def main():
         add_history("user", user_input)
         st.chat_message("user").write(f"{user_input}")
         with st.chat_message("assistant"):
-            llm = RemoteRunnable("https://cys-039-3exf6h5tguyntgp6huqzqd.streamlit.app")
+            llm = RemoteRunnable("https://share.streamlit.io/-/auth/app?redirect_uri=https%3A%2F%2Fcys-039-3exf6h
+5tguyntgp6huqzqd.streamlit.app%2Fstream")
             chat_container = st.empty()
             
             if st.session_state.processComplete:
