@@ -1,3 +1,5 @@
+# rag_test4.py
+
 import streamlit as st
 import tiktoken
 from loguru import logger
@@ -63,6 +65,9 @@ def get_vectorstore(text_chunks):
     vectordb = FAISS.from_documents(text_chunks, embeddings)
     return vectordb
 
+
+
+
 def main():
     st.set_page_config(
         page_title="Stramlit_remote_RAG",
@@ -76,7 +81,7 @@ def main():
 
     if "store" not in st.session_state:
         st.session_state["store"] = dict()
-    
+
     def print_history():
         for msg in st.session_state.messages:
             st.chat_message(msg.role).write(msg.content)
@@ -109,22 +114,19 @@ def main():
     def format_docs(docs):
         return "\n\n".join(doc.page_content for doc in docs)
 
-    RAG_PROMPT_TEMPLATE = """당신은 동서울대학교 컴퓨터소프트웨어과 안내 AI입니다. 
-                            검색된 문맥을 사용하여 질문에 맞는 답변을 30단어 이내로 하세요. 
-                            답을 모른다면 모른다고 답변하세요.
-                            Question: {question}
-                            Context: {context}
-                            Answer:"""
+    RAG_PROMPT_TEMPLATE = """당신은 동서울대학교 컴퓨터소프트웨어과 안내 AI입니다. 검색된 문맥을 사용하여 질문에 맞는 답변을 30단어 이내로 하세요. 답을 모른다면 모른다고 답변하세요.
+    Question: {question}
+    Context: {context}
+    Answer:"""
     print_history()
 
     if user_input := st.chat_input("메세지를 입력해 주세요"):
-    # if user_input := st.text_input("메세지를 입력해 주세요"):
         add_history("user", user_input)
         st.chat_message("user").write(f"{user_input}")
         with st.chat_message("assistant"):
-            llm = RemoteRunnable("https://share.streamlit.io/-/auth/app?redirect_uri=https%3A%2F%2Fcys-039-3exf6h5tguyntgp6huqzqd.streamlit.app%2Fstream")
+            llm = RemoteRunnable("https://boar-subtle-commonly.ngrok-free.app/llm/")
             chat_container = st.empty()
-            
+
             if st.session_state.processComplete:
                 prompt1 = ChatPromptTemplate.from_template(RAG_PROMPT_TEMPLATE)
 
@@ -147,7 +149,6 @@ def main():
                 add_history("ai", "".join(chunks))
 
             else:
-                
                 prompt2 = ChatPromptTemplate.from_template(
                     "다음의 질문에 간결하게 답변해 주세요:\n{input}"
                 )
@@ -156,12 +157,10 @@ def main():
 
                 answer = chain.stream(user_input)
                 chunks = []
-                print(answer)
                 for chunk in answer:
                     chunks.append(chunk)
                     chat_container.markdown("".join(chunks))
                 add_history("ai", "".join(chunks))
-                
 
 if __name__ == '__main__':
     main()
