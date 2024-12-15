@@ -71,10 +71,10 @@ def get_vectorstore(text_chunks):
 def main():
     st.set_page_config(
         page_title="Stramlit_remote_RAG",
-        page_icon=":books:"
+        page_icon=":books"
     )
 
-    st.title("_RAG_test4 : red[Q/A Chat]_ : books:")
+    st.title("_RAG_test4 :red[Q/A Chat]_ :books")
 
     if "messages" not in st.session_state:
         st.session_state["messages"] = []
